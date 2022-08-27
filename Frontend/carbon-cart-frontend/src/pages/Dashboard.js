@@ -163,7 +163,7 @@ function Dashboard() {
               </div>
             </div>
             <div className="flex flex-col">
-              <p>Top Fractional NFTs</p>
+              <p>Latest NFTs</p>
               <div className="flex justify-between mt-6">
                 <div className="h-72 w-60 bg-white rounded-xl p-2">
                   <div className="">

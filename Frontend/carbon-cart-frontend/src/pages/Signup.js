@@ -5,48 +5,29 @@ import axios from "axios";
 function Signup() {
   const [userType, setUserType] = useState("company");
 
-  const initialFormData = {
-    orgId: "",
-    name: "",
-    userType: "",
-    username: "",
-    bio: "",
-    walletAddress: "",
-  };
-
-  const [formData, setFormData] = useState(initialFormData);
+  const id = uuidv4();
+  const [orgId, setOrgId] = useState(id);
+  const [orgName, setOrgName] = useState("");
+  const [orgType, setOrgType] = useState("ngo");
+  const [bio, setBio] = useState("");
+  const [walletAddress, setWalletAddress] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const id = uuidv4();
-
-    setFormData({ ...formData, ["orgId"]: id });
-
-    console.log(formData);
-
-    // try {
-    //   // Send POST request
-    //   await axios.post("http://localhost:5000/api/v1/person", formData);
-
-    //   // Reset form data
-    //   setFormData(initialFormData);
-    // } catch (err) {
-    //   console.log(err);
-    // }
-  };
-
-  const handleChange = (e) => {
     connectWallet();
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    console.log(
+      orgId + " " + orgName + " " + orgType + " " + bio + " " + walletAddress
+    );
+
+
+    
+
+
   };
 
   const connectWallet = () => {
     const address = "0xasdfml";
-    setFormData({ ...formData, ["walletAddress"]: address });
+    setWalletAddress(address);
   };
 
   return (
@@ -58,7 +39,6 @@ function Signup() {
             <div className="space-y-10 flex flex-col">
               <label for="name">Name:</label>
               <label for="name">We are a :</label>
-              <label for="name">Username:</label>
               <label for="name">Bio:</label>
             </div>
             <div className="space-y-4 flex flex-col">
@@ -66,10 +46,13 @@ function Signup() {
                 type="text"
                 className="border p-2"
                 placeholder="web3000 foundation"
-                defaultValue={formData.name}
-                onChange={(e) => handleChange(e)}
+                defaultValue={orgName}
+                onChange={(e) => setOrgName(e.target.value)}
               />
-              <select className="border p-2">
+              <select
+                className="border p-2"
+                onSelect={(e) => setOrgType(e.target.value)}
+              >
                 <option value="company" className="p-2">
                   Company
                 </option>
@@ -80,16 +63,9 @@ function Signup() {
               <input
                 type="text"
                 className="border p-2"
-                placeholder="@web3000fdtn"
-                defaultValue={formData.username}
-                onChange={(e) => handleChange(e)}
-              />
-              <input
-                type="text"
-                className="border p-2"
                 placeholder="greener planet"
-                defaultValue={formData.bio}
-                onChange={(e) => handleChange(e)}
+                defaultValue={bio}
+                onChange={(e) => setBio(e.target.value)}
               />
             </div>
           </div>
