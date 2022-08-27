@@ -5,6 +5,7 @@ app.use(cors());
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const adminRoute = require("./routes/adminRoute");
+const orgRoute = require("./routes/orgRoute");
 
 
 
@@ -16,6 +17,7 @@ mongoose.connect(process.env.MONGO_URL)
   .catch((err) => console.log(err));
 
 app.use("/api/admin", adminRoute);
+app.use("/api/org", orgRoute);
 
 app.get('/',(req,res) =>{
   res.send("Welcome to carboncart: a revolution to web 3")
