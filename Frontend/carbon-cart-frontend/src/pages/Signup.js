@@ -20,7 +20,7 @@ function Signup() {
     );
 
     await axios
-      .push("/add-new-org", {
+      .post("http://localhost:5000/api/org/add-new-org", {
         orgId: orgId,
         orgName: orgName,
         orgType: orgType,
