@@ -6,7 +6,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const adminRoute = require("./routes/adminRoute");
 const orgRoute = require("./routes/orgRoute");
-
+const nftRoute = require("./routes/nftRoute")
 
 
 dotenv.config();
@@ -18,7 +18,8 @@ mongoose.connect(process.env.MONGO_URL)
 
 app.use("/api/admin", adminRoute);
 app.use("/api/org", orgRoute);
-
+app.use("/api/nft", nftRoute)
+app.use('/uploads', express.static('uploads'));
 app.get('/',(req,res) =>{
   res.send("Welcome to carboncart: a revolution to web 3")
 })
