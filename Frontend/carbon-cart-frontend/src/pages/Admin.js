@@ -14,8 +14,13 @@ function Admin() {
   };
   console.log(ngoData);
 
-  const verifyNFT = (nftId) => {
-    setPopup(true);
+  const verifyNFT = async (nftId) => {
+    await axios.put(
+      `http://localhost:5000/api/admin/update-verification-status/${nftId}`,
+      {
+        ccValue: ccValue,
+      }
+    );
   };
 
   return (
