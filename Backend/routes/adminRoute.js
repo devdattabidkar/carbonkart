@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Admin = require("../models/Org");
+const Admin = require("../models/admin");
 
 router.post("/add-new-ngo", async (req, res) => {
     try { 
@@ -23,9 +23,20 @@ router.post("/add-new-ngo", async (req, res) => {
     }
   })
 
-  router.put('/update-verification-status', async (req,res) => {
+  router.put('/update-verification-status/:id', async (req,res) => {
     try {
-
+        const nftId = req.params.id;
+        console.log("The nftId",nftId)
+        Admin.findOneAndUpdate(
+            {nftId: nftId}, 
+            {$set: { verificationStatus: true }}, 
+            function(err){
+                if(err){
+                    console.log(err);
+                }
+            }
+        );
+        res.status(200).json({})
     }
     catch(err){
         console.log("Error occured while updating the status",err)
