@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Admin = require("../models/Admin");
+const Admin = require("../models/Org");
 
 router.post("/add-new-ngo", async (req, res) => {
     try { 
@@ -20,6 +20,16 @@ router.post("/add-new-ngo", async (req, res) => {
     }
     catch(err){
       res.status(500).json(err)
+    }
+  })
+
+  router.put('/update-verification-status', async (req,res) => {
+    try {
+
+    }
+    catch(err){
+        console.log("Error occured while updating the status",err)
+        res.status(500).json(err)
     }
   })
   
