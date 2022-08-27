@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const adminRoute = require("./routes/adminRoute");
 
 
+
 dotenv.config();
 app.use(express.json());
 
