@@ -30,7 +30,13 @@ function Dashboard() {
 
   const verifyNFT = async () => {
     const id = uuidv4();
-
+    await axios
+      .post("http://localhost:5000/api/admin/add-new-ngo", {
+        ngoId: "123",
+        ngoName: "123",
+        nftId: "123456",
+      })
+      .then((res) => console.log(res));
   };
 
   return (

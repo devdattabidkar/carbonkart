@@ -15,12 +15,17 @@ function Admin() {
   console.log(ngoData);
 
   const verifyNFT = async (nftId) => {
+    setPopup(true);
+  };
+
+  const verifyData = async (nftId) => {
     await axios.put(
       `http://localhost:5000/api/admin/update-verification-status/${nftId}`,
       {
         ccValue: ccValue,
       }
     );
+    setPopup(false);
   };
 
   return (
@@ -105,7 +110,10 @@ function Admin() {
             </div>
 
             <div className="flex justify-center items-center mt-12 space-x-6 text-sm">
-              <button className="bg-gradient-to-r from-[#0087ff] to-[#39f6e4] text-white px-6 py-3">
+              <button
+                className="bg-gradient-to-r from-[#0087ff] to-[#39f6e4] text-white px-6 py-3"
+                onClick={verifyData(nftData.nftId)}
+              >
                 Verify
               </button>
               <button
