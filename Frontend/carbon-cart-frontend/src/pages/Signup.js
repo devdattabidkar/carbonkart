@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { ethers } from "ethers";
 
 function Signup() {
+  const navigate = useNavigate();
+
   const [userType, setUserType] = useState("company");
 
   const id = uuidv4();
@@ -14,25 +18,46 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    connectWallet();
+    // connectWallet();
     console.log(
       orgId + " " + orgName + " " + orgType + " " + bio + " " + walletAddress
     );
 
     await axios
-      .post("http://localhost:5000/api/org/add-new-org", {
+      .post("http://localhost:5000/api/org/add-new-org/", {
         orgId: orgId,
         orgName: orgName,
         orgType: orgType,
         orgBio: bio,
         orgValidAddress: walletAddress,
       })
-      .then((res) => console.log(res.status));
+      .then((res) => {
+        if (res.status === 200) {
+          navigate("/");
+        } else {
+          navigate("/signup");
+        }
+      });
   };
 
-  const connectWallet = () => {
-    const address = "0xasdfml";
-    setWalletAddress(address);
+  const connectWallet = async (e) => {
+    e.preventDefault();
+    if (window.ethereum) {
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        "any"
+      );
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+
+      (async function () {
+        let userAddress = await signer.getAddress();
+        setWalletAddress(userAddress);
+      })();
+    } else {
+      alert("install metamask extension!!");
+    }
+    // setWalletAddress(address);
   };
 
   return (
@@ -75,8 +100,13 @@ function Signup() {
             </div>
           </div>
           <div className="flex flex-col justify-center items-center mt-12">
-            <button className="bg-black px-6 py-3 text-white">
-              Connect Wallet
+            <button
+              className="bg-black px-6 py-3 text-white"
+              onClick={connectWallet}
+            >
+              {walletAddress
+                ? walletAddress.slice(0, 3) + "..." + walletAddress.slice(-3)
+                : "Connect Wallet"}
             </button>
             <button
               className="mt-4 bg-gradient-to-r from-[#39f6e4] to-[#0087ff] px-6 py-3 text-white"

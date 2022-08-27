@@ -1,7 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
   const [userType, setUserType] = useState("company");
+
+  const authUser = () => {
+    navigate("/");
+  };
 
   return (
     <section>
@@ -9,7 +15,10 @@ function Login() {
         <div className="w-96 bg-white p-10 rounded-md">
           <p className="text-xl font-bold mb-12">Login</p>
           <div className="flex flex-col justify-center items-center mt-12 space-y-6 text-sm">
-            <button className="bg-black px-6 py-3 text-white">
+            <button
+              className="bg-black px-6 py-3 text-white"
+              onClick={authUser}
+            >
               Login with Metamask
             </button>
             <button className="bg-black px-6 py-3 text-white">
