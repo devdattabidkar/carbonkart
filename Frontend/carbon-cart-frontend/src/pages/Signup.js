@@ -19,10 +19,15 @@ function Signup() {
       orgId + " " + orgName + " " + orgType + " " + bio + " " + walletAddress
     );
 
-
-    
-
-
+    await axios
+      .push("/add-new-org", {
+        orgId: orgId,
+        orgName: orgName,
+        orgType: orgType,
+        orgBio: bio,
+        orgValidAddress: walletAddress,
+      })
+      .then((res) => console.log(res.status));
   };
 
   const connectWallet = () => {
