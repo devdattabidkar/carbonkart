@@ -22,7 +22,7 @@ const AdminSchema = new mongoose.Schema(
         },
         ccValue:{
             type: Number,
-            required: true
+            default:0
         }
 
     },
