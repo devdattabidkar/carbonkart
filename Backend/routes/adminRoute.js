@@ -29,7 +29,7 @@ router.post("/add-new-ngo", async (req, res) => {
         console.log("The nftId",nftId)
         Admin.findOneAndUpdate(
             {nftId: nftId}, 
-            {$set: { verificationStatus: true }}, 
+            {$set: { verificationStatus: true, ccValue: req.body.ccValue }}, 
             function(err){
                 if(err){
                     console.log(err);

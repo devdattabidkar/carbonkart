@@ -20,6 +20,11 @@ const AdminSchema = new mongoose.Schema(
             required: true,
             default: false
         },
+        ccValue:{
+            type: Number,
+            required: true
+        }
+
     },
     { timestamps: true },
     { collection: 'admin' }
