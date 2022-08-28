@@ -23,21 +23,18 @@ function Signup() {
       orgId + " " + orgName + " " + orgType + " " + bio + " " + walletAddress
     );
 
-    await axios
-      .post("http://localhost:5000/api/org/add-new-org/", {
-        orgId: orgId,
-        orgName: orgName,
-        orgType: orgType,
-        orgBio: bio,
-        orgValidAddress: walletAddress,
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          navigate("/");
-        } else {
-          navigate("/");
-        }
-      });
+    // await axios
+    //   .post("http://localhost:5000/api/org/add-new-org/", {
+    //     orgId: orgId,
+    //     orgName: orgName,
+    //     orgType: orgType,
+    //     orgBio: bio,
+    //     orgValidAddress: walletAddress,
+    //   })
+    //   .then((res) => {
+    //     navigate("/");
+    //   });
+    navigate("/");
   };
 
   const connectWallet = async (e) => {

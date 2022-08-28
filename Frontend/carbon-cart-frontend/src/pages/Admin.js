@@ -28,6 +28,18 @@ function Admin() {
     setPopup(false);
   };
 
+
+
+
+
+
+  
+
+
+
+
+
+
   return (
     <section>
       <div className="flex flex-col justify-center items-center">
@@ -77,7 +89,7 @@ function Admin() {
         </div>
       </div>
       {popup && (
-        <div className="absolute top-0 left-0 w-screen h-screen flex justify-center items-center z-10">
+        <div className="absolute top-0 left-0 w-screen h-screen flex justify-center items-center z-10 bg-gray-100">
           <div className="w-96 bg-white p-10 rounded-md border">
             <p className="text-xl font-bold mb-8">NFT Details</p>
 
@@ -112,7 +124,7 @@ function Admin() {
             <div className="flex justify-center items-center mt-12 space-x-6 text-sm">
               <button
                 className="bg-gradient-to-r from-[#0087ff] to-[#39f6e4] text-white px-6 py-3"
-                onClick={verifyData(nftData.nftId)}
+                onClick={() => setPopup(false)}
               >
                 Verify
               </button>

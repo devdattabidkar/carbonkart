@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { Web3Storage } from "web3.storage";
+import { ethers } from "ethers";
 
 function Dashboard() {
-  const [userType, setUserType] = useState("company");
+  const [userType, setUserType] = useState("ngo");
   const [isMintPage, setIsMintPage] = useState(false);
   const [showNFT, setShowNFT] = useState(false);
 
@@ -30,6 +31,7 @@ function Dashboard() {
 
   const verifyNFT = async () => {
     const id = uuidv4();
+    setIsMintPage(false);
     await axios
       .post("http://localhost:5000/api/admin/add-new-ngo", {
         ngoId: "123",
@@ -38,6 +40,83 @@ function Dashboard() {
       })
       .then((res) => console.log(res));
   };
+
+  let private_key =
+    "41559d28e936dc92104ff30691519693fc753ffbee6251a611b9aa1878f12a4d";
+  let send_token_amount = "0.001";
+  let to_address = "0x4c10D2734Fb76D3236E522509181CC3Ba8DE0e80";
+  let send_address = "0xda27a282B5B6c5229699891CfA6b900A716539E6";
+  let gas_limit = "0x100000";
+  let wallet = new ethers.Wallet(private_key);
+  let walletSigner = wallet.connect(window.ethersProvider);
+  let contract_address = "";
+  let send_abi = {};
+  window.ethersProvider = new ethers.providers.InfuraProvider("ropsten");
+
+  send_token(
+    contract_address,
+    send_token_amount,
+    to_address,
+    send_address,
+    private_key
+  );
+
+  function send_token(
+    contract_address,
+    send_token_amount,
+    to_address,
+    send_account,
+    private_key
+  ) {
+    let wallet = new ethers.Wallet(private_key);
+    let walletSigner = wallet.connect(window.ethersProvider);
+
+    window.ethersProvider.getGasPrice().then((currentGasPrice) => {
+      let gas_price = ethers.utils.hexlify(parseInt(currentGasPrice));
+      console.log(`gas_price: ${gas_price}`);
+
+      if (contract_address) {
+        // general token send
+        let contract = new ethers.Contract(
+          contract_address,
+          send_abi,
+          walletSigner
+        );
+
+        // How many tokens?
+        let numberOfTokens = ethers.utils.parseUnits(send_token_amount, 18);
+        console.log(`numberOfTokens: ${numberOfTokens}`);
+
+        // Send tokens
+        contract.transfer(to_address, numberOfTokens).then((transferResult) => {
+          console.dir(transferResult);
+          alert("sent token");
+        });
+      } // ether send
+      else {
+        const tx = {
+          from: send_account,
+          to: to_address,
+          value: ethers.utils.parseEther(send_token_amount),
+          nonce: window.ethersProvider.getTransactionCount(
+            send_account,
+            "latest"
+          ),
+          gasLimit: ethers.utils.hexlify(gas_limit), // 100000
+          gasPrice: gas_price,
+        };
+        console.dir(tx);
+        try {
+          walletSigner.sendTransaction(tx).then((transaction) => {
+            console.dir(transaction);
+            alert("Send finished!");
+          });
+        } catch (error) {
+          alert("failed to send!!");
+        }
+      }
+    });
+  }
 
   return (
     <section className="relative">
@@ -60,7 +139,7 @@ function Dashboard() {
                 alt="avatar"
               />
             </div>
-            <p className="text-md ml-6 mt-12">Welcome, Mayur</p>
+            <p className="text-md ml-6 mt-12">Welcome, web3000 foundation</p>
           </div>
 
           <p className="my-10 text-gray-500">stats</p>
@@ -69,7 +148,7 @@ function Dashboard() {
             id="card"
             className="rounded-md border border-gray-200 shadow-md w-64 h-36 bg-gradient-to-r from-[#39f6e4] to-[#0087ff] flex justify-center items-center text-5xl font-bold text-white"
           >
-            30CC
+            24CC
           </div>
         </div>
 
@@ -286,7 +365,10 @@ function Dashboard() {
                         <p>NGO Name: One Tree Foundation</p>
                         <p>Carbon Credits: 40</p>
                       </div>
-                      <button className="bg-black mt-2 px-4 py-2 text-white rounded-xl">
+                      <button
+                        className="bg-black mt-2 px-4 py-2 text-white rounded-xl"
+                        onClick={() => send_token()}
+                      >
                         Mint
                       </button>
                     </div>
