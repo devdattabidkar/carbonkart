@@ -1,12 +1,30 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ethers } from "ethers";
 
 function Login() {
   const navigate = useNavigate();
   const [userType, setUserType] = useState("company");
+  const [walletAddress, setWalletAddress] = useState("");
 
-  const authUser = () => {
-    navigate("/");
+  const authUser = async (e) => {
+    e.preventDefault();
+    if (window.ethereum) {
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        "any"
+      );
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+
+      (async function () {
+        let userAddress = await signer.getAddress();
+        setWalletAddress(userAddress);
+        navigate("/");
+      })();
+    } else {
+      alert("install metamask extension!!");
+    }
   };
 
   return (
@@ -21,9 +39,9 @@ function Login() {
             >
               Login with Metamask
             </button>
-            <button className="bg-black px-6 py-3 text-white">
+            {/* <button className="bg-black px-6 py-3 text-white">
               Login with Unstoppable domains
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

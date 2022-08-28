@@ -35,7 +35,7 @@ function Signup() {
         if (res.status === 200) {
           navigate("/");
         } else {
-          navigate("/signup");
+          navigate("/");
         }
       });
   };

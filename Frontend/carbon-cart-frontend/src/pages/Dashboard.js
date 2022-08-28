@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Web3Storage } from "web3.storage";
 
 function Dashboard() {
-  const [userType, setUserType] = useState("ngo");
+  const [userType, setUserType] = useState("company");
   const [isMintPage, setIsMintPage] = useState(false);
   const [showNFT, setShowNFT] = useState(false);
 
@@ -101,7 +101,10 @@ function Dashboard() {
             <div id="top-nfts" className="mt-12">
               <p className="my-6">Top NFTs</p>
               <div className="flex justify-between">
-                <div className="h-72 w-60 bg-white rounded-xl p-2">
+                <div
+                  className="h-72 w-60 bg-white rounded-xl p-2"
+                  onClick={() => setShowNFT(true)}
+                >
                   <div className="">
                     <img
                       alt="nft"
@@ -417,7 +420,7 @@ function Dashboard() {
       )}
 
       {showNFT && (
-        <div className="absolute top-0 left-0 w-screen h-screen flex justify-center items-center z-10">
+        <div className="absolute top-0 left-0 w-screen h-screen flex justify-center items-center z-10 bg-gray-100">
           <div className="w-96 bg-white p-10 rounded-md border">
             <p className="text-xl font-bold mb-8">NFT Name</p>
 
@@ -429,7 +432,7 @@ function Dashboard() {
               />
               <div className="flex items-center space-x-2 mt-2">
                 <label For="ngo">Carbon Credits: </label>
-                <p>2</p>
+                <p>40</p>
               </div>
               <div className="flex items-center space-x-2 mt-2">
                 <label For="ngo">NGO: </label>
@@ -444,12 +447,15 @@ function Dashboard() {
             </div>
 
             <div className="flex justify-center items-center mt-12 space-x-6 text-sm">
-              <button className="bg-gradient-to-r from-[#0087ff] to-[#39f6e4] text-white px-6 py-3">
+              <button
+                className="bg-gradient-to-r from-[#0087ff] to-[#39f6e4] text-white px-6 py-3"
+                onClick={() => setShowNFT(false)}
+              >
                 Buy NFT
               </button>
               <button
                 className="bg-black px-6 py-3 text-white text-sm"
-                onClick={() => setShowNFT(true)}
+                onClick={() => setShowNFT(false)}
               >
                 Close
               </button>
